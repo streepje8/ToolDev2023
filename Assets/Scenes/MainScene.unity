@@ -234,7 +234,6 @@ GameObject:
   m_Component:
   - component: {fileID: 688373106}
   - component: {fileID: 688373105}
-  - component: {fileID: 688373104}
   m_Layer: 0
   m_Name: UICamera
   m_TagString: Untagged
@@ -242,14 +241,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &688373104
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 688373103}
-  m_Enabled: 1
 --- !u!20 &688373105
 Camera:
   m_ObjectHideFlags: 0
@@ -412,6 +403,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 709051600}
+  - component: {fileID: 709051601}
   m_Layer: 0
   m_Name: CameraOriginPoint
   m_TagString: Untagged
@@ -435,6 +427,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &709051601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709051599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b4958ca95860b42a2f0fa8e718a819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  preview: {fileID: 1376066011}
+  sensitifity: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,6 +536,7 @@ GameObject:
   - component: {fileID: 1376066008}
   - component: {fileID: 1376066010}
   - component: {fileID: 1376066009}
+  - component: {fileID: 1376066011}
   m_Layer: 5
   m_Name: Preview
   m_TagString: Untagged
@@ -592,6 +599,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1376066007}
   m_CullTransparentMesh: 1
+--- !u!114 &1376066011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376066007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c2ba84956e6ac7448a15a16ff2a6ebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBeeingHovered: 0
 --- !u!1 &1403146235
 GameObject:
   m_ObjectHideFlags: 0
