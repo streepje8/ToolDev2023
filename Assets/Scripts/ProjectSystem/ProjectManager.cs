@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -16,6 +17,46 @@ public class ProjectManager : MonoBehaviour
         CreateProject(nameInput.InputField.text,fileInput.FilePath);
     }
 
+    public List<string> GetProjectPaths()
+    {
+        List<string> foundProjects = new List<string>();
+        if(!Directory.Exists(Application.persistentDataPath + "/projects")) Directory.CreateDirectory(Application.persistentDataPath + "/projects");
+        foreach (string directory in Directory.GetDirectories(Application.persistentDataPath + "/projects"))
+        {
+            if (File.Exists(directory.Replace("\\", "/") + "/projectData.json"))
+            {
+                foundProjects.Add(directory.Replace("\\", "/"));
+            }
+        }
+        return foundProjects;
+    }
+    
+    public List<string> GetProjectNames()
+    {
+        List<string> foundProjects = new List<string>();
+        if(!Directory.Exists(Application.persistentDataPath + "/projects")) Directory.CreateDirectory(Application.persistentDataPath + "/projects");
+        foreach (string directory in Directory.GetDirectories(Application.persistentDataPath + "/projects"))
+        {
+            if (File.Exists(Application.persistentDataPath + "/projects/" + directory + "/projectData.json"))
+            {
+                Project p = GetProject(Application.persistentDataPath + "/projects/" + directory);
+                foundProjects.Add(p.name);
+            }
+        }
+        return foundProjects;
+    }
+
+    public Project GetProject(string projectDirectory)
+    {
+        Project result = new Project() { name = "nullProject", projectDirectory = projectDirectory, modelPlusAnimationsFilePath = null};
+        if (File.Exists(projectDirectory + "/projectData.json"))
+        {
+            string projectJson = File.ReadAllText(projectDirectory + "/projectData.json");
+            result = JsonConvert.DeserializeObject<Project>(projectJson);
+        }
+        return result;
+    }
+
     public void CreateProject(string name, string fbxFilePath)
     {
         //Sanitize the user name input
@@ -27,26 +68,33 @@ public class ProjectManager : MonoBehaviour
         
         //Check if the project itself already exists
         int i = 1;
-        string processedname = name;
-        while (i < 100 && Directory.Exists(Application.persistentDataPath + "/projects/" + processedname))
+        string processedName = name;
+        while (i < 100 && Directory.Exists(Application.persistentDataPath + "/projects/" + processedName))
         {
-            processedname = name + "_" + i;
+            processedName = name + "_" + i;
             i++;
         } 
         
         //Actually create the project
-        Debug.Log("Creating project: " + processedname + " with file: " + fbxFilePath);
+        Debug.Log("Creating project: " + processedName + " with file: " + fbxFilePath);
         Project project = new Project()
         {
-            name = processedname,
-            projectDirectory = Application.persistentDataPath + "/projects/" + processedname,
+            name = processedName,
+            projectDirectory = Application.persistentDataPath + "/projects/" + processedName,
         };
         Directory.CreateDirectory(project.projectDirectory);
-        project.modelPlusAnimationsFilePath = project.projectDirectory + "/ModelAndAnimations.fbx";
-        File.Copy(fbxFilePath, project.modelPlusAnimationsFilePath);
+        project.modelPlusAnimationsFilePath = project.projectDirectory + "/ModelAndAnimations.gltf";
+        string exe = "cmd.exe";
+        string arguments = "/c " + CLI.Instance.NormalizeSlashes(CLI.Instance.AddQuotesIfRequired(Application.streamingAssetsPath + "/FBX2glTF.exe")) + " ";
+        arguments += "--input " + CLI.Instance.NormalizeSlashes(CLI.Instance.AddQuotesIfRequired(fbxFilePath)) + " ";
+        arguments += "--output " + CLI.Instance.AddQuotesIfRequired(CLI.Instance.NormalizeSlashes(project.modelPlusAnimationsFilePath));
+        arguments = arguments.Replace("\\\\", "\\");
+        Debug.Log(arguments);
+        CLI.Instance.RunConsoleCommand(exe, arguments);
+        //File.Copy(fbxFilePath, project.modelPlusAnimationsFilePath);
         string projectDataJson = JsonConvert.SerializeObject(project, Formatting.Indented);
         File.WriteAllText(project.projectDirectory + "/projectData.json",projectDataJson);
-        Debug.Log("Project created successfully! Opening project...");
+        Debug.Log("Project created successfully at " + project.projectDirectory + "! Opening project...");
         OpenProject(project);
     }
 
