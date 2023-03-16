@@ -1,0 +1,9 @@
+@startuml
+class ToolManager {
+}
+class "Singleton`1"<T> {
+}
+"Singleton`1" "<ToolManager>" <|-- ToolManager
+ToolManager --> "processor" SpriteProcessor
+ToolManager --> "mainMenu" Menu
+@enduml

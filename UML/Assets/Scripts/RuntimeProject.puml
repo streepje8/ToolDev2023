@@ -1,0 +1,7 @@
+@startuml
+class RuntimeProject {
+    + RuntimeProject(serializedProject:Project)
+}
+RuntimeProject --> "sprite" Texture2D
+RuntimeProject --> "serializedProject" Project
+@enduml

@@ -12,6 +12,25 @@ class CLI {
 class "Singleton`1"<T> {
 }
 "Singleton`1" "<CLI>" <|-- CLI
+class RuntimeProject {
+    + RuntimeProject(serializedProject:Project)
+}
+RuntimeProject --> "sprite" Texture2D
+RuntimeProject --> "serializedProject" Project
+class ToolManager {
+}
+class "Singleton`1"<T> {
+}
+"Singleton`1" "<ToolManager>" <|-- ToolManager
+ToolManager --> "processor" SpriteProcessor
+ToolManager --> "mainMenu" Menu
+class SpriteProcessor {
+    + ProcessImage(sprite:Texture2D) : void
+}
+MonoBehaviour <|-- SpriteProcessor
+SpriteProcessor --> "template" Material
+SpriteProcessor --> "runtimeMaterial" Material
+SpriteProcessor --> "processed" RenderTexture
 class Preview {
     + isBeeingHovered : bool = false
     + OnPointerEnter(eventData:PointerEventData) : void

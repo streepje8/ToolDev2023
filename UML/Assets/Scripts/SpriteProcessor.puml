@@ -1,0 +1,9 @@
+@startuml
+class SpriteProcessor {
+    + ProcessImage(sprite:Texture2D) : void
+}
+MonoBehaviour <|-- SpriteProcessor
+SpriteProcessor --> "template" Material
+SpriteProcessor --> "runtimeMaterial" Material
+SpriteProcessor --> "processed" RenderTexture
+@enduml
