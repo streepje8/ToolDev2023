@@ -46,14 +46,14 @@ public class FileInputElement : MenuElement
         
         OpenFileName ofn = new OpenFileName();
         ofn.structSize = Marshal.SizeOf(ofn);
-        ofn.filter = "Fbx Files\0*.fbx\0\0";
+        ofn.filter = "Sprites \0*.png\0\0";
         ofn.file = new string(new char[256]);
         ofn.maxFile = ofn.file.Length;
         ofn.fileTitle = new string(new char[64]);
         ofn.maxFileTitle = ofn.fileTitle.Length;
         ofn.initialDir = "%USERPROFILE%\\Desktop";
-        ofn.title = "Select an FBX file with a model and animations to use for your project.";
-        ofn.defExt = "FBX";
+        ofn.title = "Select an png file with a sprite to use for your project.";
+        ofn.defExt = "PNG";
         ofn.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000008;//OFN_EXPLORER|OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR
         if(GetOpenFileName(ofn))
         {

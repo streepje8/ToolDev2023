@@ -7,6 +7,6 @@ public struct Project
 {
     public string name;
     public string projectDirectory;
-    public string modelPlusAnimationsFilePath;
+    public string originalSpritePath;
     
 }

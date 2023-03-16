@@ -7,16 +7,16 @@ public class Menu : MonoBehaviour
 {
     private Dictionary<string, MenuElement> elements = new Dictionary<string, MenuElement>();
 
-    private void Awake()
-    {
-        foreach (var menuElement in GetComponentsInChildren<MenuElement>())
-        {
-            elements.Add(menuElement.id,menuElement);
-        }
-    }
+    private bool isInitialized = false;
 
     public T GetMenuElementById<T>(string id) where T : MenuElement
     {
+        if (!isInitialized)
+        {
+            foreach (var menuElement in GetComponentsInChildren<MenuElement>())
+                elements.Add(menuElement.id,menuElement);
+            isInitialized = true;
+        }
         if (elements.TryGetValue(id, out MenuElement el))
         {
             if(typeof(T) == el.GetType() || el.GetType().IsAssignableFrom(typeof(T))) return (T)Convert.ChangeType(el,typeof(T));

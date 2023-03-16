@@ -1,14 +1,22 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using UnityEngine;
 
-public class ProjectManager : MonoBehaviour
+public class ProjectManager : Singleton<ProjectManager>
 {
-    private Project openProject;
+    private RuntimeProject openProject;
     public MenuManager menuManager;
     public Menu newProjectMenu;
+    public bool projectIsOpen;
+
+    private void Awake()
+    {
+        Instance = this;
+        projectIsOpen = false;
+    }
 
     public void CreateProjectWithUI()
     {
@@ -48,7 +56,7 @@ public class ProjectManager : MonoBehaviour
 
     public Project GetProject(string projectDirectory)
     {
-        Project result = new Project() { name = "nullProject", projectDirectory = projectDirectory, modelPlusAnimationsFilePath = null};
+        Project result = new Project() { name = "nullProject", projectDirectory = projectDirectory, originalSpritePath = null};
         if (File.Exists(projectDirectory + "/projectData.json"))
         {
             string projectJson = File.ReadAllText(projectDirectory + "/projectData.json");
@@ -57,7 +65,7 @@ public class ProjectManager : MonoBehaviour
         return result;
     }
 
-    public void CreateProject(string name, string fbxFilePath)
+    public void CreateProject(string name, string spriteFilePath)
     {
         //Sanitize the user name input
         name = Regex.Replace(name,@"[\s]", "_");
@@ -76,31 +84,47 @@ public class ProjectManager : MonoBehaviour
         } 
         
         //Actually create the project
-        Debug.Log("Creating project: " + processedName + " with file: " + fbxFilePath);
+        Debug.Log("Creating project: " + processedName + " with file: " + spriteFilePath);
         Project project = new Project()
         {
             name = processedName,
             projectDirectory = Application.persistentDataPath + "/projects/" + processedName,
         };
         Directory.CreateDirectory(project.projectDirectory);
-        project.modelPlusAnimationsFilePath = project.projectDirectory + "/ModelAndAnimations.gltf";
-        string exe = "cmd.exe";
-        string arguments = "/c " + CLI.Instance.NormalizeSlashes(CLI.Instance.AddQuotesIfRequired(Application.streamingAssetsPath + "/FBX2glTF.exe")) + " ";
-        arguments += "--input " + CLI.Instance.NormalizeSlashes(CLI.Instance.AddQuotesIfRequired(fbxFilePath)) + " ";
-        arguments += "--output " + CLI.Instance.AddQuotesIfRequired(CLI.Instance.NormalizeSlashes(project.modelPlusAnimationsFilePath));
-        arguments = arguments.Replace("\\\\", "\\");
-        Debug.Log(arguments);
-        CLI.Instance.RunConsoleCommand(exe, arguments);
-        //File.Copy(fbxFilePath, project.modelPlusAnimationsFilePath);
+        project.originalSpritePath = project.projectDirectory + "/ModelAndAnimations.gltf";
+        File.Copy(spriteFilePath, project.originalSpritePath);
         string projectDataJson = JsonConvert.SerializeObject(project, Formatting.Indented);
         File.WriteAllText(project.projectDirectory + "/projectData.json",projectDataJson);
         Debug.Log("Project created successfully at " + project.projectDirectory + "! Opening project...");
         OpenProject(project);
+        
+        // Old Code
+        // string exe = "cmd.exe";
+        // Debug.Log("WOO: " + CLI.Instance.NormalizeSlashes(CLI.Instance.AddQuotesIfRequired(Application.streamingAssetsPath + "/FBX2glTF.exe")));
+        // ///CLI.Instance.NormalizeSlashes(CLI.Instance.AddQuotesIfRequired(Application.streamingAssetsPath + "/FBX2glTF.exe"))
+        // CLI.Instance.RunConsoleCommand(exe, new ProcessStartInfo()
+        // {
+        //     ArgumentList =
+        //     {
+        //         "/c",
+        //         CLI.Instance.NormalizeSlashes(CLI.Instance.AddQuotesIfRequired(Application.streamingAssetsPath + "/FBX2glTF.exe")),
+        //         "--input",
+        //         CLI.Instance.NormalizeSlashes(CLI.Instance.AddQuotesIfRequired(fbxFilePath)),
+        //         "--output",
+        //         CLI.Instance.AddQuotesIfRequired(CLI.Instance.NormalizeSlashes(project.modelPlusAnimationsFilePath))
+        //     }
+        // });
     }
 
     public void OpenProject(Project p)
     {
-        openProject = p;
+        openProject = new RuntimeProject(p);
+        projectIsOpen = true;
         menuManager.SwitchMenu(2);
+    }
+
+    public RuntimeProject GetOpenProject()
+    {
+        return openProject;
     }
 }
