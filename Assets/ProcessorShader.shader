@@ -48,7 +48,7 @@ Shader "Unlit/ProcessorShader"
             {
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
-                col.rgb = 1 - col.rgb;
+                //col.rgb = 1 - col.rgb;
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
