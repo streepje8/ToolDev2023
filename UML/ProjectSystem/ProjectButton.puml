@@ -1,0 +1,7 @@
+@startuml
+class ProjectButton {
+}
+MonoBehaviour <|-- ProjectButton
+ProjectButton --> "button" Button
+ProjectButton --> "label" TMP_Text
+@enduml

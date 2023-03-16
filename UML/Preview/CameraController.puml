@@ -1,0 +1,7 @@
+@startuml
+class CameraController {
+    + sensitifity : float
+}
+MonoBehaviour <|-- CameraController
+CameraController --> "preview" Preview
+@enduml

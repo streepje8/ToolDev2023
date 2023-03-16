@@ -1,0 +1,10 @@
+@startuml
+class Preview {
+    + isBeeingHovered : bool = false
+    + OnPointerEnter(eventData:PointerEventData) : void
+    + OnPointerExit(eventData:PointerEventData) : void
+}
+MonoBehaviour <|-- Preview
+IPointerEnterHandler <|-- Preview
+IPointerExitHandler <|-- Preview
+@enduml

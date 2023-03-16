@@ -1,0 +1,116 @@
+@startuml
+class "Singleton`1"<T> {
+    + {static} Instance : T <<get>> <<set>>
+}
+MonoBehaviour <|-- "Singleton`1"
+class CLI {
+    Awake() : void
+    + RunConsoleCommand(command:string, startInfo:ProcessStartInfo) : int
+    + NormalizeSlashes(path:string) : string
+    + AddQuotesIfRequired(path:string) : string
+}
+class "Singleton`1"<T> {
+}
+"Singleton`1" "<CLI>" <|-- CLI
+class Preview {
+    + isBeeingHovered : bool = false
+    + OnPointerEnter(eventData:PointerEventData) : void
+    + OnPointerExit(eventData:PointerEventData) : void
+}
+MonoBehaviour <|-- Preview
+IPointerEnterHandler <|-- Preview
+IPointerExitHandler <|-- Preview
+class CameraController {
+    + sensitifity : float
+}
+MonoBehaviour <|-- CameraController
+CameraController --> "preview" Preview
+class ProjectManager {
+    + projectIsOpen : bool
+    + CreateProjectWithUI() : void
+    + GetProjectPaths() : List<string>
+    + GetProjectNames() : List<string>
+    + GetProject(projectDirectory:string) : Project
+    + CreateProject(name:string, spriteFilePath:string) : void
+    + OpenProject(p:Project) : void
+    + GetOpenProject() : RuntimeProject
+}
+class "Singleton`1"<T> {
+}
+"Singleton`1" "<ProjectManager>" <|-- ProjectManager
+ProjectManager --> "menuManager" MenuManager
+ProjectManager --> "newProjectMenu" Menu
+class Project <<struct>> {
+    + name : string
+    + projectDirectory : string
+    + originalSpritePath : string
+}
+class ProjectDisplay {
+    Start() : void
+}
+MonoBehaviour <|-- ProjectDisplay
+ProjectDisplay --> "manager" ProjectManager
+ProjectDisplay --> "templateProject" GameObject
+class ProjectButton {
+}
+MonoBehaviour <|-- ProjectButton
+ProjectButton --> "button" Button
+ProjectButton --> "label" TMP_Text
+class MenuElement {
+    + id : string
+}
+MonoBehaviour <|-- MenuElement
+class Menu {
+    + GetMenuElementById(id:string) : T
+}
+MonoBehaviour <|-- Menu
+class MenuManager {
+    + SwitchMenu(index:int) : void
+}
+class "List`1"<T> {
+}
+MonoBehaviour <|-- MenuManager
+MenuManager o-> "menus<Menu>" "List`1"
+class ImageDisplayElement {
+}
+MenuElement <|-- ImageDisplayElement
+ImageDisplayElement --> "image" RawImage
+class StringInputElement {
+}
+MenuElement <|-- StringInputElement
+StringInputElement --> "InputField" TMP_InputField
+class OpenFileName {
+    + structSize : int = 0
+    + maxCustFilter : int = 0
+    + filterIndex : int = 0
+    + maxFile : int = 0
+    + maxFileTitle : int = 0
+    + flags : int = 0
+    + fileOffset : short = 0
+    + fileExtension : short = 0
+    + reservedInt : int = 0
+    + flagsEx : int = 0
+}
+class FileInputElement {
+    + FilePath : string <<get>> = null
+    + {static} <<extern>> GetOpenFileName(ofn:OpenFileName) : bool
+    + {static} GetOpenFileName1(ofn:OpenFileName) : bool
+    + PickFile() : void
+    + UpdatePreviewText() : void
+}
+OpenFileName o-> "dlgOwner" IntPtr
+OpenFileName o-> "instance" IntPtr
+OpenFileName o-> "filter" String
+OpenFileName o-> "customFilter" String
+OpenFileName o-> "file" String
+OpenFileName o-> "fileTitle" String
+OpenFileName o-> "initialDir" String
+OpenFileName o-> "title" String
+OpenFileName o-> "defExt" String
+OpenFileName o-> "custData" IntPtr
+OpenFileName o-> "hook" IntPtr
+OpenFileName o-> "templateName" String
+OpenFileName o-> "reservedPtr" IntPtr
+MenuElement <|-- FileInputElement
+FileInputElement --> "previewText" TMP_Text
+@enduml

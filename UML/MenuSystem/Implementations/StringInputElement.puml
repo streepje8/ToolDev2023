@@ -1,0 +1,6 @@
+@startuml
+class StringInputElement {
+}
+MenuElement <|-- StringInputElement
+StringInputElement --> "InputField" TMP_InputField
+@enduml

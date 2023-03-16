@@ -1,0 +1,36 @@
+@startuml
+class OpenFileName {
+    + structSize : int = 0
+    + maxCustFilter : int = 0
+    + filterIndex : int = 0
+    + maxFile : int = 0
+    + maxFileTitle : int = 0
+    + flags : int = 0
+    + fileOffset : short = 0
+    + fileExtension : short = 0
+    + reservedInt : int = 0
+    + flagsEx : int = 0
+}
+class FileInputElement {
+    + FilePath : string <<get>> = null
+    + {static} <<extern>> GetOpenFileName(ofn:OpenFileName) : bool
+    + {static} GetOpenFileName1(ofn:OpenFileName) : bool
+    + PickFile() : void
+    + UpdatePreviewText() : void
+}
+OpenFileName o-> "dlgOwner" IntPtr
+OpenFileName o-> "instance" IntPtr
+OpenFileName o-> "filter" String
+OpenFileName o-> "customFilter" String
+OpenFileName o-> "file" String
+OpenFileName o-> "fileTitle" String
+OpenFileName o-> "initialDir" String
+OpenFileName o-> "title" String
+OpenFileName o-> "defExt" String
+OpenFileName o-> "custData" IntPtr
+OpenFileName o-> "hook" IntPtr
+OpenFileName o-> "templateName" String
+OpenFileName o-> "reservedPtr" IntPtr
+MenuElement <|-- FileInputElement
+FileInputElement --> "previewText" TMP_Text
+@enduml

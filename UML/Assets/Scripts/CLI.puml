@@ -1,0 +1,11 @@
+@startuml
+class CLI {
+    Awake() : void
+    + RunConsoleCommand(command:string, startInfo:ProcessStartInfo) : int
+    + NormalizeSlashes(path:string) : string
+    + AddQuotesIfRequired(path:string) : string
+}
+class "Singleton`1"<T> {
+}
+"Singleton`1" "<CLI>" <|-- CLI
+@enduml

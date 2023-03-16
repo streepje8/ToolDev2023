@@ -1,0 +1,6 @@
+@startuml
+class Menu {
+    + GetMenuElementById(id:string) : T
+}
+MonoBehaviour <|-- Menu
+@enduml

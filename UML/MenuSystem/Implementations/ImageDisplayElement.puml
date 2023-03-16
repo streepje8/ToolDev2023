@@ -1,0 +1,6 @@
+@startuml
+class ImageDisplayElement {
+}
+MenuElement <|-- ImageDisplayElement
+ImageDisplayElement --> "image" RawImage
+@enduml

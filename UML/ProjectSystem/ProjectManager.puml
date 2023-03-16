@@ -1,0 +1,17 @@
+@startuml
+class ProjectManager {
+    + projectIsOpen : bool
+    + CreateProjectWithUI() : void
+    + GetProjectPaths() : List<string>
+    + GetProjectNames() : List<string>
+    + GetProject(projectDirectory:string) : Project
+    + CreateProject(name:string, spriteFilePath:string) : void
+    + OpenProject(p:Project) : void
+    + GetOpenProject() : RuntimeProject
+}
+class "Singleton`1"<T> {
+}
+"Singleton`1" "<ProjectManager>" <|-- ProjectManager
+ProjectManager --> "menuManager" MenuManager
+ProjectManager --> "newProjectMenu" Menu
+@enduml

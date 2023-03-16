@@ -1,0 +1,9 @@
+@startuml
+class MenuManager {
+    + SwitchMenu(index:int) : void
+}
+class "List`1"<T> {
+}
+MonoBehaviour <|-- MenuManager
+MenuManager o-> "menus<Menu>" "List`1"
+@enduml
