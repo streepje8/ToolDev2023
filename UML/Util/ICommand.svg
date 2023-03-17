@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="104px" preserveAspectRatio="none" style="width:131px;height:104px;" version="1.1" viewBox="0 0 131 104" width="131px" zoomAndPan="magnify"><defs><filter height="300%" id="f11t7falhrae77" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[11008d568be52109e77f2977709dd853]
+class ICommand--><rect fill="#FEFECE" filter="url(#f11t7falhrae77)" height="86.4141" id="ICommand" style="stroke: #A80036; stroke-width: 1.5;" width="113" x="7" y="7"/><ellipse cx="28.75" cy="23" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M24.6719,18.7656 L24.6719,16.6094 L32.0625,16.6094 L32.0625,18.7656 L29.5938,18.7656 L29.5938,26.8438 L32.0625,26.8438 L32.0625,29 L24.6719,29 L24.6719,26.8438 L27.1406,26.8438 L27.1406,18.7656 L24.6719,18.7656 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="66" x="44.25" y="27.1543">ICommand</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="119" y1="39" y2="39"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="119" y1="47" y2="47"/><ellipse cx="18" cy="58" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="87" x="27" y="61.2104">Execute() : void</text><ellipse cx="18" cy="70.8047" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="72" x="27" y="74.0151">Undo() : void</text><ellipse cx="18" cy="83.6094" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="71" x="27" y="86.8198">Redo() : void</text><!--MD5=[87e04c39b760cd993936e95334206abd]
+@startuml
+interface ICommand {
+    + Execute() : void
+    + Undo() : void
+    + Redo() : void
+}
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 GMT 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.9+11-Ubuntu-0ubuntu1
+Operating System: Linux
+Default Encoding: ANSI_X3.4-1968
+Language: en
+Country: US
+--></g></svg>

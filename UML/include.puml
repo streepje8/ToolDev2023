@@ -1,17 +1,4 @@
 @startuml
-class "Singleton`1"<T> {
-    + {static} Instance : T <<get>> <<set>>
-}
-MonoBehaviour <|-- "Singleton`1"
-class CLI {
-    Awake() : void
-    + RunConsoleCommand(command:string, startInfo:ProcessStartInfo) : int
-    + NormalizeSlashes(path:string) : string
-    + AddQuotesIfRequired(path:string) : string
-}
-class "Singleton`1"<T> {
-}
-"Singleton`1" "<CLI>" <|-- CLI
 class RuntimeProject {
     + RuntimeProject(serializedProject:Project)
 }
@@ -31,6 +18,49 @@ MonoBehaviour <|-- SpriteProcessor
 SpriteProcessor --> "template" Material
 SpriteProcessor --> "runtimeMaterial" Material
 SpriteProcessor --> "processed" RenderTexture
+class CommandManager {
+    + changesBeforeRedoDiscard : int = 1
+    + PushCommand(command:ICommand) : void
+    + Undo() : void
+    + Redo() : void
+}
+class "Singleton`1"<T> {
+}
+class "Stack`1"<T> {
+}
+"Singleton`1" "<CommandManager>" <|-- CommandManager
+CommandManager o-> "history<ICommand>" "Stack`1"
+CommandManager o-> "redoHistory<ICommand>" "Stack`1"
+interface ICommand {
+    + Execute() : void
+    + Undo() : void
+    + Redo() : void
+}
+class StringAction <<struct>> {
+    + action : string
+}
+class StringActionRunner {
+    + TryRunAction(action:string) : bool
+    + RunActionTMP() : void
+}
+class "List`1"<T> {
+}
+StringAction --> "reaction" UnityEvent
+MonoBehaviour <|-- StringActionRunner
+StringActionRunner o-> "actions<StringAction>" "List`1"
+class "Singleton`1"<T> {
+    + {static} Instance : T <<get>> <<set>>
+}
+MonoBehaviour <|-- "Singleton`1"
+class CLI {
+    Awake() : void
+    + RunConsoleCommand(command:string, startInfo:ProcessStartInfo) : int
+    + NormalizeSlashes(path:string) : string
+    + AddQuotesIfRequired(path:string) : string
+}
+class "Singleton`1"<T> {
+}
+"Singleton`1" "<CLI>" <|-- CLI
 class Preview {
     + isBeeingHovered : bool = false
     + OnPointerEnter(eventData:PointerEventData) : void
@@ -51,6 +81,8 @@ class ProjectManager {
     + GetProjectNames() : List<string>
     + GetProject(projectDirectory:string) : Project
     + CreateProject(name:string, spriteFilePath:string) : void
+    + ExportCurrent() : void
+    + Export(p:RuntimeProject) : bool
     + OpenProject(p:Project) : void
     + GetOpenProject() : RuntimeProject
 }
@@ -68,7 +100,6 @@ class ProjectDisplay {
     Start() : void
 }
 MonoBehaviour <|-- ProjectDisplay
-ProjectDisplay --> "manager" ProjectManager
 ProjectDisplay --> "templateProject" GameObject
 class ProjectButton {
 }
@@ -90,6 +121,20 @@ class "List`1"<T> {
 }
 MonoBehaviour <|-- MenuManager
 MenuManager o-> "menus<Menu>" "List`1"
+class "ChangeFieldCommand`1"<T> {
+    + ChangeFieldCommand(field:TMP_InputField, from:T, to:T, validator:FieldValidator, callback:Action<T>)
+    + Execute() : void
+    + Undo() : void
+    + Redo() : void
+}
+ICommand <|-- "ChangeFieldCommand`1"
+class ChangeDropdownCommand {
+    + ChangeDropdownCommand(dropdown:TMP_Dropdown, from:int, to:int, callback:Action<int>)
+    + Execute() : void
+    + Undo() : void
+    + Redo() : void
+}
+ICommand <|-- ChangeDropdownCommand
 class ImageDisplayElement {
 }
 MenuElement <|-- ImageDisplayElement
@@ -114,6 +159,8 @@ class FileInputElement {
     + FilePath : string <<get>> = null
     + {static} <<extern>> GetOpenFileName(ofn:OpenFileName) : bool
     + {static} GetOpenFileName1(ofn:OpenFileName) : bool
+    + {static} <<extern>> GetSaveFileName(ofn:OpenFileName) : bool
+    + {static} GetSaveFileName1(ofn:OpenFileName) : bool
     + PickFile() : void
     + UpdatePreviewText() : void
 }

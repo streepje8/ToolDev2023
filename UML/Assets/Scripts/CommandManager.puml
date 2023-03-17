@@ -1,0 +1,15 @@
+@startuml
+class CommandManager {
+    + changesBeforeRedoDiscard : int = 1
+    + PushCommand(command:ICommand) : void
+    + Undo() : void
+    + Redo() : void
+}
+class "Singleton`1"<T> {
+}
+class "Stack`1"<T> {
+}
+"Singleton`1" "<CommandManager>" <|-- CommandManager
+CommandManager o-> "history<ICommand>" "Stack`1"
+CommandManager o-> "redoHistory<ICommand>" "Stack`1"
+@enduml

@@ -3,6 +3,5 @@ class ProjectDisplay {
     Start() : void
 }
 MonoBehaviour <|-- ProjectDisplay
-ProjectDisplay --> "manager" ProjectManager
 ProjectDisplay --> "templateProject" GameObject
 @enduml
