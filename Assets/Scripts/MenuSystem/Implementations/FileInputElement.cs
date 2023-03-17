@@ -41,6 +41,12 @@ public class FileInputElement : MenuElement
         return GetOpenFileName(ofn);
     }
     
+    [DllImport("Comdlg32.dll", SetLastError = true, ThrowOnUnmappableChar = true, CharSet = CharSet.Auto)]
+    public static extern bool GetSaveFileName([In, Out] OpenFileName ofn);
+    public static bool GetSaveFileName1([In, Out] OpenFileName ofn) {
+        return GetSaveFileName(ofn);
+    }
+    
     public void PickFile()
     {
         
@@ -54,7 +60,7 @@ public class FileInputElement : MenuElement
         ofn.initialDir = "%USERPROFILE%\\Desktop";
         ofn.title = "Select an png file with a sprite to use for your project.";
         ofn.defExt = "PNG";
-        ofn.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000008;//OFN_EXPLORER|OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR
+        ofn.flags = 0x00080000 | 0x00000008;//OFN_EXPLORER|OFN_NOCHANGEDIR
         if(GetOpenFileName(ofn))
         {
             FilePath = ofn.file;
@@ -68,6 +74,6 @@ public class FileInputElement : MenuElement
 
     public void UpdatePreviewText()
     {
-        previewText.text = FilePath ?? "No File Selected";
+        previewText.text = FilePath ?? "No Sprite Selected";
     }
 }

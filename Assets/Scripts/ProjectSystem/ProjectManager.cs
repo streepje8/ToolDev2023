@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -114,6 +115,55 @@ public class ProjectManager : Singleton<ProjectManager>
         //         CLI.Instance.AddQuotesIfRequired(CLI.Instance.NormalizeSlashes(project.modelPlusAnimationsFilePath))
         //     }
         // });
+    }
+
+    public void ExportCurrent()
+    {
+        if(!Export(openProject)) Debug.LogWarning("The exporting of one or more projects failed!");
+    }
+
+    public bool Export(RuntimeProject p)
+    {
+        string filepath = "";
+        OpenFileName ofn = new OpenFileName();
+        ofn.structSize = Marshal.SizeOf(ofn);
+        ofn.filter = "Sprites \0*.png\0\0";
+        ofn.file = new string(new char[256]);
+        ofn.maxFile = ofn.file.Length;
+        ofn.fileTitle = new string(new char[64]);
+        ofn.maxFileTitle = ofn.fileTitle.Length;
+        ofn.initialDir = "%USERPROFILE%\\Desktop";
+        ofn.title = "Select where to save an png file with the warped sprite.";
+        ofn.defExt = "PNG";
+        ofn.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000008;//OFN_EXPLORER|OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR
+        if(FileInputElement.GetSaveFileName(ofn))
+        {
+            filepath = ofn.file;
+        }
+        else
+        {
+            filepath = null;
+        }
+
+        if (filepath != null)
+        {
+            RenderTexture temp = new RenderTexture(p.sprite.width, p.sprite.height, 1);
+            Graphics.Blit(p.sprite, temp, ToolManager.Instance.processor.runtimeMaterial);
+            Texture2D result = new Texture2D(p.sprite.width, p.sprite.height);
+            RenderTexture.active = temp;
+            result.ReadPixels(new Rect(0, 0, p.sprite.width, p.sprite.height), 0, 0);
+            result.Apply();
+            RenderTexture.active = null;
+            byte[] bytes = result.EncodeToPNG();
+            if (!Directory.Exists(Path.GetDirectoryName(filepath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(filepath) ?? throw new InvalidOperationException());
+            }
+
+            File.WriteAllBytes(filepath, bytes);
+            return true;
+        }
+        return false;
     }
 
     public void OpenProject(Project p)
