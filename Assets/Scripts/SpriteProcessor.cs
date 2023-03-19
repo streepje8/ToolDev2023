@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SpriteProcessor : MonoBehaviour
 {
     public Material template;
-    [HideInInspector]public Material runtimeMaterial;
+    /*[HideInInspector]*/public Material runtimeMaterial;
     [HideInInspector]public RenderTexture processed;
     
     private void Awake()

@@ -3,6 +3,14 @@ Shader "Unlit/ProcessorShader"
     Properties
     {
         _MainTex("Texture", 2D) = "white" {}
+        _SineOffsetAmountX("Sine Offset X-Amount", Float) = 0
+        _SineOffsetAmountY("Sine Offset Y-Amount", Float) = 0
+        _SineOffsetTime("Sine Offset Time", Float) = 2
+        _RotationAmount("Rotation Amount", Float) = 0
+        _RotationSinAmount("Rotation Sin Amount", Float) = 1
+        _RotationCosAmount("Rotation Cos Amount", Float) = 1
+        _RotationCosMod("Rotation CosMod", Float) = 1
+        _RotationSinMod("Rotation SinMod", Float) = 1
     }
     SubShader
     {
@@ -14,8 +22,6 @@ Shader "Unlit/ProcessorShader"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
 
@@ -28,7 +34,6 @@ Shader "Unlit/ProcessorShader"
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
             };
 
@@ -40,17 +45,31 @@ Shader "Unlit/ProcessorShader"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
 
+            float _SineOffsetAmountX;
+            float _SineOffsetAmountY;
+            float _SineOffsetTime;
+            float _RotationAmount;
+            float _RotationSinAmount;
+            float _RotationCosAmount;
+            float _RotationCosMod;
+            float _RotationSinMod;
+            
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
-                //col.rgb = 1 - col.rgb;
-                // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
+                float2 uv = i.uv;
+
+                uv.x += _SineOffsetAmountX*sin(_SineOffsetTime*uv.x);
+                uv.y += _SineOffsetAmountY*sin(_SineOffsetTime*uv.y);
+
+                float acos = _RotationCosMod * cos(_RotationAmount * _RotationSinAmount);
+                float asin = _RotationSinMod * sin(_RotationAmount * _RotationCosAmount);
+                uv = float2(acos * uv.x - asin * uv.y,asin * uv.x + acos * uv.y);
+                
+                fixed4 col = tex2D(_MainTex, uv);
                 return col;
             }
             ENDCG
