@@ -1,0 +1,9 @@
+@startuml
+class ChangeDropdownCommand {
+    + ChangeDropdownCommand(dropdown:TMP_Dropdown, from:int, to:int, callback:Action<int>)
+    + Execute() : void
+    + Undo() : void
+    + Redo() : void
+}
+ICommand <|-- ChangeDropdownCommand
+@enduml

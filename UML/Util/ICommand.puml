@@ -1,0 +1,7 @@
+@startuml
+interface ICommand {
+    + Execute() : void
+    + Undo() : void
+    + Redo() : void
+}
+@enduml

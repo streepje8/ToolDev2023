@@ -1,0 +1,9 @@
+@startuml
+class "ChangeFieldCommand`1"<T> {
+    + ChangeFieldCommand(field:TMP_InputField, from:T, to:T, validator:FieldValidator, callback:Action<T>)
+    + Execute() : void
+    + Undo() : void
+    + Redo() : void
+}
+ICommand <|-- "ChangeFieldCommand`1"
+@enduml

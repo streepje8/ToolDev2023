@@ -15,6 +15,8 @@ class FileInputElement {
     + FilePath : string <<get>> = null
     + {static} <<extern>> GetOpenFileName(ofn:OpenFileName) : bool
     + {static} GetOpenFileName1(ofn:OpenFileName) : bool
+    + {static} <<extern>> GetSaveFileName(ofn:OpenFileName) : bool
+    + {static} GetSaveFileName1(ofn:OpenFileName) : bool
     + PickFile() : void
     + UpdatePreviewText() : void
 }

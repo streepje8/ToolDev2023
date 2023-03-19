@@ -1,0 +1,14 @@
+@startuml
+class StringAction <<struct>> {
+    + action : string
+}
+class StringActionRunner {
+    + TryRunAction(action:string) : bool
+    + RunActionTMP() : void
+}
+class "List`1"<T> {
+}
+StringAction --> "reaction" UnityEvent
+MonoBehaviour <|-- StringActionRunner
+StringActionRunner o-> "actions<StringAction>" "List`1"
+@enduml

@@ -6,6 +6,8 @@ class ProjectManager {
     + GetProjectNames() : List<string>
     + GetProject(projectDirectory:string) : Project
     + CreateProject(name:string, spriteFilePath:string) : void
+    + ExportCurrent() : void
+    + Export(p:RuntimeProject) : bool
     + OpenProject(p:Project) : void
     + GetOpenProject() : RuntimeProject
 }
