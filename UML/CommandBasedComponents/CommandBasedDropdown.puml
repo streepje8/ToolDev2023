@@ -1,0 +1,9 @@
+@startuml
+class CommandBasedDropdown {
+    + PokeDropdownDetection(newValue:int) : void
+}
+class "UnityEvent`1"<T> {
+}
+MonoBehaviour <|-- CommandBasedDropdown
+CommandBasedDropdown --> "onValueChanged<int>" "UnityEvent`1"
+@enduml

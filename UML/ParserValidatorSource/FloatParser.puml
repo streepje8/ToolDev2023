@@ -1,0 +1,9 @@
+@startuml
+class FloatParser {
+    + Parse(from:string) : float
+}
+class "IInputParser`1"<T> {
+}
+InputParser <|-- FloatParser
+"IInputParser`1" "<float>" <|-- FloatParser
+@enduml

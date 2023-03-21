@@ -1,0 +1,5 @@
+@startuml
+class DropdownToContextMenu {
+}
+MonoBehaviour <|-- DropdownToContextMenu
+@enduml

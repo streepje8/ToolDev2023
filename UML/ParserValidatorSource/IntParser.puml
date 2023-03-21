@@ -1,0 +1,9 @@
+@startuml
+class IntParser {
+    + Parse(from:string) : int
+}
+class "IInputParser`1"<T> {
+}
+InputParser <|-- IntParser
+"IInputParser`1" "<int>" <|-- IntParser
+@enduml

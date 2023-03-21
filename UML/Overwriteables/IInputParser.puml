@@ -1,0 +1,5 @@
+@startuml
+interface "IInputParser`1"<out T> {
+    + Parse(from:string) : T
+}
+@enduml

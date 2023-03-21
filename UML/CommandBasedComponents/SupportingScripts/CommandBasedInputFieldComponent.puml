@@ -1,0 +1,12 @@
+@startuml
+class CommandBasedInputFieldComponent {
+    + inputType : string
+}
+class "Action`1"<T> {
+}
+MonoBehaviour <|-- CommandBasedInputFieldComponent
+CommandBasedInputFieldComponent --> "parser" InputParser
+CommandBasedInputFieldComponent --> "validator" InputValidator
+CommandBasedInputFieldComponent --> "callback<object>" "Action`1"
+CommandBasedInputFieldComponent --> "rcbifc" dynamic
+@enduml

@@ -61,6 +61,20 @@ class CLI {
 class "Singleton`1"<T> {
 }
 "Singleton`1" "<CLI>" <|-- CLI
+class DropdownToContextMenu {
+}
+MonoBehaviour <|-- DropdownToContextMenu
+class CommandBasedDropdown {
+    + PokeDropdownDetection(newValue:int) : void
+}
+class "UnityEvent`1"<T> {
+}
+MonoBehaviour <|-- CommandBasedDropdown
+CommandBasedDropdown --> "onValueChanged<int>" "UnityEvent`1"
+class "CommandBasedInputField`1"<T> {
+    + CommandBasedInputField(inputField:TMP_InputField, parser:IInputParser<T>, validator:IFieldValidator<T>, callback:Action<T>)
+    + Poke(newValue:string) : void
+}
 class Preview {
     + isBeeingHovered : bool = false
     + OnPointerEnter(eventData:PointerEventData) : void
@@ -106,6 +120,18 @@ class ProjectButton {
 MonoBehaviour <|-- ProjectButton
 ProjectButton --> "button" Button
 ProjectButton --> "label" TMP_Text
+class InputValidator {
+}
+ScriptableObject <|-- InputValidator
+interface "IFieldValidator`1"<T> {
+    + Invoke(input:T) : T
+}
+interface "IInputParser`1"<out T> {
+    + Parse(from:string) : T
+}
+abstract class InputParser {
+}
+ScriptableObject <|-- InputParser
 class MenuElement {
     + id : string
 }
@@ -121,8 +147,36 @@ class "List`1"<T> {
 }
 MonoBehaviour <|-- MenuManager
 MenuManager o-> "menus<Menu>" "List`1"
+class IntParser {
+    + Parse(from:string) : int
+}
+class "IInputParser`1"<T> {
+}
+InputParser <|-- IntParser
+"IInputParser`1" "<int>" <|-- IntParser
+class FloatValidator {
+    + Invoke(input:float) : float
+}
+class "IFieldValidator`1"<T> {
+}
+InputValidator <|-- FloatValidator
+"IFieldValidator`1" "<float>" <|-- FloatValidator
+class IntValidator {
+    + Invoke(input:int) : int
+}
+class "IFieldValidator`1"<T> {
+}
+InputValidator <|-- IntValidator
+"IFieldValidator`1" "<int>" <|-- IntValidator
+class FloatParser {
+    + Parse(from:string) : float
+}
+class "IInputParser`1"<T> {
+}
+InputParser <|-- FloatParser
+"IInputParser`1" "<float>" <|-- FloatParser
 class "ChangeFieldCommand`1"<T> {
-    + ChangeFieldCommand(field:TMP_InputField, from:T, to:T, validator:FieldValidator, callback:Action<T>)
+    + ChangeFieldCommand(field:TMP_InputField, from:T, to:T, validator:IFieldValidator<T>, callback:Action<T>)
     + Execute() : void
     + Undo() : void
     + Redo() : void
@@ -135,6 +189,19 @@ class ChangeDropdownCommand {
     + Redo() : void
 }
 ICommand <|-- ChangeDropdownCommand
+class "RuntimeCommandBasedInputFieldComponent`1"<T> {
+    + Init(inputField:TMP_InputField, parser:InputParser, validator:InputValidator, callback:Action<object>) : void
+}
+class CommandBasedInputFieldComponent {
+    + inputType : string
+}
+class "Action`1"<T> {
+}
+MonoBehaviour <|-- CommandBasedInputFieldComponent
+CommandBasedInputFieldComponent --> "parser" InputParser
+CommandBasedInputFieldComponent --> "validator" InputValidator
+CommandBasedInputFieldComponent --> "callback<object>" "Action`1"
+CommandBasedInputFieldComponent --> "rcbifc" dynamic
 class ImageDisplayElement {
 }
 MenuElement <|-- ImageDisplayElement

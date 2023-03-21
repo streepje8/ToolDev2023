@@ -1,0 +1,5 @@
+@startuml
+class "RuntimeCommandBasedInputFieldComponent`1"<T> {
+    + Init(inputField:TMP_InputField, parser:InputParser, validator:InputValidator, callback:Action<object>) : void
+}
+@enduml

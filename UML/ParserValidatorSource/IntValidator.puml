@@ -1,0 +1,9 @@
+@startuml
+class IntValidator {
+    + Invoke(input:int) : int
+}
+class "IFieldValidator`1"<T> {
+}
+InputValidator <|-- IntValidator
+"IFieldValidator`1" "<int>" <|-- IntValidator
+@enduml

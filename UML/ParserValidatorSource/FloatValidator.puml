@@ -1,0 +1,9 @@
+@startuml
+class FloatValidator {
+    + Invoke(input:float) : float
+}
+class "IFieldValidator`1"<T> {
+}
+InputValidator <|-- FloatValidator
+"IFieldValidator`1" "<float>" <|-- FloatValidator
+@enduml

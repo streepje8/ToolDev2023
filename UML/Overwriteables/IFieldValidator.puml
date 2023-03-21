@@ -1,0 +1,5 @@
+@startuml
+interface "IFieldValidator`1"<T> {
+    + Invoke(input:T) : T
+}
+@enduml
