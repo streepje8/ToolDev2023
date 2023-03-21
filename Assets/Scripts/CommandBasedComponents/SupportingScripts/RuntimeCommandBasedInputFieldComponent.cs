@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(TMP_InputField))]
 public class RuntimeCommandBasedInputFieldComponent<T>
 {
-    private CommandBasedInputField<T> cbif;
+    public CommandBasedInputField<T> cbif;
     
     public void Init(TMP_InputField inputField, InputParser parser, InputValidator validator, Action<object> callback)
     {
