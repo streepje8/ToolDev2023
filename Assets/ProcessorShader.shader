@@ -68,7 +68,9 @@ Shader "Unlit/ProcessorShader"
                 float acos = _RotationCosMod * cos(_RotationAmount * _RotationSinAmount);
                 float asin = _RotationSinMod * sin(_RotationAmount * _RotationCosAmount);
                 uv = float2(acos * uv.x - asin * uv.y,asin * uv.x + acos * uv.y);
-                
+
+                float2 diff = (normalize(i.uv - uv) + 0.5) * 0.5;
+                return float4(diff.x,diff.y,1,1);
                 fixed4 col = tex2D(_MainTex, uv);
                 return col;
             }

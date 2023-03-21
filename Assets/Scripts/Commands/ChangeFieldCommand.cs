@@ -4,15 +4,12 @@ using TMPro;
 public class ChangeFieldCommand<T> : ICommand
 {
     private TMP_InputField field;
-    private FieldValidator validator;
+    private IFieldValidator<T> validator;
     private T from;
     private T to;
     private Action<T> callback;
 
-
-    public delegate T FieldValidator(T input);
-    
-    public ChangeFieldCommand(TMP_InputField field, T from, T to, FieldValidator validator, Action<T> callback)
+    public ChangeFieldCommand(TMP_InputField field, T from, T to, IFieldValidator<T> validator, Action<T> callback)
     {
         this.field = field;
         this.from = from;
