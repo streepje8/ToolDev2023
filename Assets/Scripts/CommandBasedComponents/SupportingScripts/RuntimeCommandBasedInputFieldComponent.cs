@@ -13,4 +13,9 @@ public class RuntimeCommandBasedInputFieldComponent<T>
     {
         cbif = new CommandBasedInputField<T>(inputField,(IInputParser<T>)parser,(IFieldValidator<T>)validator, (t) => callback?.Invoke(t));
     }
+
+    public void BindToShader(ShaderBinding binding)
+    {
+        cbif.BindToShader(binding);
+    }
 }

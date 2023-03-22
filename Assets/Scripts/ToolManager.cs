@@ -1,5 +1,6 @@
 public class ToolManager : Singleton<ToolManager>
 {
+    public ScriptShaderInterface ssi;
     public SpriteProcessor processor;
     public Menu mainMenu;
 

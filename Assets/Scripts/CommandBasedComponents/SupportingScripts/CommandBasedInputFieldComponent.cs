@@ -23,5 +23,6 @@ public class CommandBasedInputFieldComponent : MonoBehaviour
         Type constructed = typeof(RuntimeCommandBasedInputFieldComponent<>).MakeGenericType(a);
         rcbifc = Activator.CreateInstance(constructed);
         rcbifc.Init(GetComponent<TMP_InputField>(),parser,validator,callback);
+        rcbifc.BindToShader(GetComponent<ShaderBinding>());
     }
 }

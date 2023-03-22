@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ConnectedSlider : MonoBehaviour
 {
     public CommandBasedInputFieldComponent inputField;
+    public ShaderBinding previewBinding;
     
     public float maxValue = 1f;
     public float minValue = 0f;
@@ -44,5 +45,6 @@ public class ConnectedSlider : MonoBehaviour
     {
         valueChanged = true;
         value = Mathf.Lerp(minValue,maxValue,newVal);
+        previewBinding.PreviewValue(value);
     }
 }

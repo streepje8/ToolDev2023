@@ -444,6 +444,7 @@ GameObject:
   - component: {fileID: 6150909748671380097}
   - component: {fileID: 5578352579961199553}
   - component: {fileID: 1066365675127165380}
+  - component: {fileID: 2743536605547772526}
   m_Layer: 5
   m_Name: Input
   m_TagString: Untagged
@@ -640,9 +641,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e80923f3ee5ffca4e84a8a5f67b8f3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputType: System.Single
-  parser: {fileID: 11400000, guid: e33ef0682c9481c449eb576a5917b20f, type: 2}
-  validator: {fileID: 11400000, guid: cd957639613f59a4caf40b187b2c6d0c, type: 2}
+  inputType: System.Int32
+  parser: {fileID: 11400000, guid: e2b5e822f11c4374abdf5ab51d3d838f, type: 2}
+  validator: {fileID: 11400000, guid: 6178274dcaffc0647aea1e8b7d487383, type: 2}
+--- !u!114 &2743536605547772526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4309490259848158272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8d93fdf34668634dba334611b4232f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  propertyName: 
 --- !u!1 &5087115401723576366
 GameObject:
   m_ObjectHideFlags: 0

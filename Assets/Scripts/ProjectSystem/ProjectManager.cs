@@ -9,6 +9,7 @@ using UnityEngine;
 public class ProjectManager : Singleton<ProjectManager>
 {
     private RuntimeProject openProject;
+    public ProjectShaderSettingsManager shaderSettingsManager;
     public MenuManager menuManager;
     public Menu newProjectMenu;
     public bool projectIsOpen;
@@ -91,6 +92,7 @@ public class ProjectManager : Singleton<ProjectManager>
             name = processedName,
             projectDirectory = Application.persistentDataPath + "/projects/" + processedName,
         };
+        project.shaderSettings = shaderSettingsManager.SerializeAllSettings();
         Directory.CreateDirectory(project.projectDirectory);
         project.originalSpritePath = project.projectDirectory + "/ModelAndAnimations.gltf";
         File.Copy(spriteFilePath, project.originalSpritePath);
@@ -117,7 +119,14 @@ public class ProjectManager : Singleton<ProjectManager>
         // });
     }
 
-    public void ExportCurrent()
+    public void SaveCurrent()
+    {
+        openProject.serializedProject.shaderSettings = shaderSettingsManager.SerializeAllSettings();
+        string projectDataJson = JsonConvert.SerializeObject(openProject.serializedProject, Formatting.Indented);
+        File.WriteAllText(openProject.serializedProject.projectDirectory + "/projectData.json",projectDataJson);
+    }
+
+        public void ExportCurrent()
     {
         if(!Export(openProject)) Debug.LogWarning("The exporting of one or more projects failed!");
     }
@@ -148,7 +157,7 @@ public class ProjectManager : Singleton<ProjectManager>
         if (filepath != null)
         {
             RenderTexture temp = new RenderTexture(p.sprite.width, p.sprite.height, 1);
-            Graphics.Blit(p.sprite, temp, ToolManager.Instance.processor.runtimeMaterial);
+            Graphics.Blit(p.sprite, temp, ToolManager.Instance.ssi.material);
             Texture2D result = new Texture2D(p.sprite.width, p.sprite.height);
             RenderTexture.active = temp;
             result.ReadPixels(new Rect(0, 0, p.sprite.width, p.sprite.height), 0, 0);
@@ -168,6 +177,10 @@ public class ProjectManager : Singleton<ProjectManager>
 
     public void OpenProject(Project p)
     {
+        if (p.shaderSettings is { Length: > 0 })
+        {
+            shaderSettingsManager.DeserializeAllSettings(p.shaderSettings);
+        }
         openProject = new RuntimeProject(p);
         projectIsOpen = true;
         menuManager.SwitchMenu(2);
