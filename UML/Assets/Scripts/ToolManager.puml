@@ -4,6 +4,7 @@ class ToolManager {
 class "Singleton`1"<T> {
 }
 "Singleton`1" "<ToolManager>" <|-- ToolManager
+ToolManager --> "ssi" ScriptShaderInterface
 ToolManager --> "processor" SpriteProcessor
 ToolManager --> "mainMenu" Menu
 @enduml

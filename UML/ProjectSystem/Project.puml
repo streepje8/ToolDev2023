@@ -3,5 +3,6 @@ class Project <<struct>> {
     + name : string
     + projectDirectory : string
     + originalSpritePath : string
+    + shaderSettings : string
 }
 @enduml

@@ -9,6 +9,7 @@ class ToolManager {
 class "Singleton`1"<T> {
 }
 "Singleton`1" "<ToolManager>" <|-- ToolManager
+ToolManager --> "ssi" ScriptShaderInterface
 ToolManager --> "processor" SpriteProcessor
 ToolManager --> "mainMenu" Menu
 class SpriteProcessor {
@@ -16,7 +17,6 @@ class SpriteProcessor {
 }
 MonoBehaviour <|-- SpriteProcessor
 SpriteProcessor --> "template" Material
-SpriteProcessor --> "runtimeMaterial" Material
 SpriteProcessor --> "processed" RenderTexture
 class CommandManager {
     + changesBeforeRedoDiscard : int = 1
@@ -74,6 +74,7 @@ CommandBasedDropdown --> "onValueChanged<int>" "UnityEvent`1"
 class "CommandBasedInputField`1"<T> {
     + CommandBasedInputField(inputField:TMP_InputField, parser:IInputParser<T>, validator:IFieldValidator<T>, callback:Action<T>)
     + Poke(newValue:string) : void
+    + BindToShader(shaderBinding:ShaderBinding) : void
 }
 class Preview {
     + isBeeingHovered : bool = false
@@ -95,6 +96,7 @@ class ProjectManager {
     + GetProjectNames() : List<string>
     + GetProject(projectDirectory:string) : Project
     + CreateProject(name:string, spriteFilePath:string) : void
+    + SaveCurrent() : void
     + ExportCurrent() : void
     + Export(p:RuntimeProject) : bool
     + OpenProject(p:Project) : void
@@ -103,12 +105,14 @@ class ProjectManager {
 class "Singleton`1"<T> {
 }
 "Singleton`1" "<ProjectManager>" <|-- ProjectManager
+ProjectManager --> "shaderSettingsManager" ProjectShaderSettingsManager
 ProjectManager --> "menuManager" MenuManager
 ProjectManager --> "newProjectMenu" Menu
 class Project <<struct>> {
     + name : string
     + projectDirectory : string
     + originalSpritePath : string
+    + shaderSettings : string
 }
 class ProjectDisplay {
     Start() : void
@@ -191,6 +195,7 @@ class ChangeDropdownCommand {
 ICommand <|-- ChangeDropdownCommand
 class "RuntimeCommandBasedInputFieldComponent`1"<T> {
     + Init(inputField:TMP_InputField, parser:InputParser, validator:InputValidator, callback:Action<object>) : void
+    + BindToShader(binding:ShaderBinding) : void
 }
 class "CommandBasedInputField`1"<T> {
 }

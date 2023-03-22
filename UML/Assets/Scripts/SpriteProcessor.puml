@@ -4,6 +4,5 @@ class SpriteProcessor {
 }
 MonoBehaviour <|-- SpriteProcessor
 SpriteProcessor --> "template" Material
-SpriteProcessor --> "runtimeMaterial" Material
 SpriteProcessor --> "processed" RenderTexture
 @enduml

@@ -2,5 +2,6 @@
 class "CommandBasedInputField`1"<T> {
     + CommandBasedInputField(inputField:TMP_InputField, parser:IInputParser<T>, validator:IFieldValidator<T>, callback:Action<T>)
     + Poke(newValue:string) : void
+    + BindToShader(shaderBinding:ShaderBinding) : void
 }
 @enduml

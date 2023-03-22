@@ -6,6 +6,7 @@ class ProjectManager {
     + GetProjectNames() : List<string>
     + GetProject(projectDirectory:string) : Project
     + CreateProject(name:string, spriteFilePath:string) : void
+    + SaveCurrent() : void
     + ExportCurrent() : void
     + Export(p:RuntimeProject) : bool
     + OpenProject(p:Project) : void
@@ -14,6 +15,7 @@ class ProjectManager {
 class "Singleton`1"<T> {
 }
 "Singleton`1" "<ProjectManager>" <|-- ProjectManager
+ProjectManager --> "shaderSettingsManager" ProjectShaderSettingsManager
 ProjectManager --> "menuManager" MenuManager
 ProjectManager --> "newProjectMenu" Menu
 @enduml
