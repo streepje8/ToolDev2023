@@ -11,6 +11,9 @@ Shader "Unlit/ProcessorShader"
         _RotationCosAmount("Rotation Cos Amount", Float) = 1
         _RotationCosMod("Rotation CosMod", Float) = 1
         _RotationSinMod("Rotation SinMod", Float) = 1
+        _XOffset("X Offset", Float) = 0
+        _YOffset("Y Offset", Float) = 0
+        _Scale("Scale", Float) = 1
     }
     SubShader
     {
@@ -56,12 +59,19 @@ Shader "Unlit/ProcessorShader"
             float _RotationCosAmount;
             float _RotationCosMod;
             float _RotationSinMod;
+            float _XOffset;
+            float _YOffset;
+            float _Scale;
             
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
                 float2 uv = i.uv;
 
+                uv += float2(_XOffset,_YOffset);
+
+                uv *= _Scale;
+                
                 uv.x += _SineOffsetAmountX*sin(_SineOffsetTime*uv.x);
                 uv.y += _SineOffsetAmountY*sin(_SineOffsetTime*uv.y);
 

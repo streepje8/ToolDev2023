@@ -8,6 +8,7 @@ using UnityEngine;
 public class CommandBasedInputFieldComponent : MonoBehaviour
 {
     public string inputType;
+    public string defaultValue;
     public InputParser parser;
     public InputValidator validator;
     public Action<object> callback;
@@ -24,5 +25,10 @@ public class CommandBasedInputFieldComponent : MonoBehaviour
         rcbifc = Activator.CreateInstance(constructed);
         rcbifc.Init(GetComponent<TMP_InputField>(),parser,validator,callback);
         rcbifc.BindToShader(GetComponent<ShaderBinding>());
+    }
+
+    private void Start()
+    {
+        if(!rcbifc.cbif.LoadValueFromSave()) rcbifc.cbif.Poke(defaultValue, false);
     }
 }

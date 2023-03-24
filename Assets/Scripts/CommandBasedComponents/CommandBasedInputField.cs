@@ -25,15 +25,25 @@ public class CommandBasedInputField<T>
         ifield.SetTextWithoutNotify(oldValue.ToString());
     }
 
-    public void Poke(string newValue)
+    public bool LoadValueFromSave()
+    {
+        (bool found, T value) = binding.RestoreLoadedValue<T>();
+        if(found) Poke(value.ToString(),false);
+        return found;
+    }
+
+    public void Poke(string newValue) => Poke(newValue,true);
+
+    public void Poke(string newValue, bool pushCommand)
     {
         Action<T> injectedCallback = (val) =>
         {
             binding?.UpdateValue(val);
             callback?.Invoke(val);
         };
-        CommandManager.Instance.PushCommand(new ChangeFieldCommand<T>(ifield,oldValue,parser.Parse(newValue),validator,injectedCallback));
-        oldValue = validator.Invoke(parser.Parse(newValue));
+        if(pushCommand)CommandManager.Instance.PushCommand(new ChangeFieldCommand<T>(ifield,oldValue,parser.Parse(newValue),validator,injectedCallback));
+        if(pushCommand)oldValue = validator.Invoke(parser.Parse(newValue));
+        if(!pushCommand)new ChangeFieldCommand<T>(ifield,oldValue,parser.Parse(newValue),validator,injectedCallback).Execute();
     }
 
     public void BindToShader(ShaderBinding shaderBinding)

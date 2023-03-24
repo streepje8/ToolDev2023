@@ -26,8 +26,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _RotationAmount: 0
+    - _RotationCosAmount: 1
+    - _RotationCosMod: 1
+    - _RotationSinAmount: 1
+    - _RotationSinMod: 1
+    - _Scale: 1
     - _SineOffsetAmountX: 0
     - _SineOffsetAmountY: 0
     - _SineOffsetTime: 1
+    - _XOffset: 0
+    - _YOffset: 0
     m_Colors: []
   m_BuildTextureStacks: []

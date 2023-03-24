@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using UnityEngine;
 
 public class ChangeFieldCommand<T> : ICommand
 {
@@ -8,6 +9,8 @@ public class ChangeFieldCommand<T> : ICommand
     private T from;
     private T to;
     private Action<T> callback;
+    
+    private Guid temp;
 
     public ChangeFieldCommand(TMP_InputField field, T from, T to, IFieldValidator<T> validator, Action<T> callback)
     {
@@ -16,6 +19,7 @@ public class ChangeFieldCommand<T> : ICommand
         this.to = to;
         this.validator = validator;
         this.callback = callback;
+        temp = Guid.NewGuid();
     }
     
     public void Execute()
@@ -27,6 +31,7 @@ public class ChangeFieldCommand<T> : ICommand
 
     public void Undo()
     {
+        Debug.Log("Undo: " + temp.ToString());
         T newValue = validator.Invoke(from);
         field.SetTextWithoutNotify(newValue.ToString());
         callback.Invoke(newValue);

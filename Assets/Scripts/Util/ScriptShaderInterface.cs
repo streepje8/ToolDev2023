@@ -9,7 +9,7 @@ public class ScriptShaderInterface : MonoBehaviour
     public List<string> propertyNames = new List<string>();
     private Dictionary<string, int> propertyIDLookup = new Dictionary<string, int>();
     private ProjectShaderSettingsManager manager;
-
+    
     public void Initialize(Material template)
     {
         material = new Material(template);
@@ -24,6 +24,15 @@ public class ScriptShaderInterface : MonoBehaviour
     }
 
     public bool HasSetting(string name) => propertyIDLookup.ContainsKey(name);
+
+    public ShaderSetting<T>? GetSetting<T>(string name)
+    {
+        if (propertyIDLookup.TryGetValue(name, out int id))
+        {
+            return manager.GetSetting<T>(id);
+        }
+        return null;
+    }
 
     public bool SetSetting<T>(string name, T value, bool updateProjectFile = true)
     {

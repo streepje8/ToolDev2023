@@ -22,7 +22,6 @@ public class ProjectShaderSettingsManager : MonoBehaviour
         if (currentSettings.ContainsKey(id)) currentSettings.Remove(id);
         currentSettings.Add(id, serializer.Serialize(setting));
     }
-
     public ShaderSetting<T>? GetSetting<T>(int id)
     {
         if (currentSettings.TryGetValue(id, out string serializedSetting))
