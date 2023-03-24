@@ -1,0 +1,25 @@
+@startuml
+class ProjectShaderSettingsManager {
+    + SetSetting(id:int, setting:ShaderSetting<T>) : void
+    + GetSetting(id:int) : ShaderSetting<T>?
+    + SerializeAllSettings() : string
+    + DeserializeAllSettings(json:string) : void
+}
+interface IShaderSettingDeserializer {
+    + DeSerialize(serializedSetting:string) : ShaderSetting<T>
+}
+interface IShaderSettingSerializer {
+    + Serialize(setting:ShaderSetting<T>) : string
+}
+class "ShaderSetting`1"<T> <<struct>> {
+    + name : string
+    + value : T
+    + ShaderSetting(name:string, value:T)
+}
+class "Dictionary`2"<T1,T2> {
+}
+MonoBehaviour <|-- ProjectShaderSettingsManager
+ProjectShaderSettingsManager o-> "currentSettings<int,string>" "Dictionary`2"
+ProjectShaderSettingsManager --> "serializer" IShaderSettingSerializer
+ProjectShaderSettingsManager --> "deserializer" IShaderSettingDeserializer
+@enduml

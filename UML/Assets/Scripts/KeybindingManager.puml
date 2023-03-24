@@ -1,0 +1,6 @@
+@startuml
+class KeybindingManager {
+    Update() : void
+}
+MonoBehaviour <|-- KeybindingManager
+@enduml

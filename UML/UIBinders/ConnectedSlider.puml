@@ -1,0 +1,10 @@
+@startuml
+class ConnectedSlider {
+    + maxValue : float = 1f
+    + minValue : float = 0f
+    + Poke(newVal:float) : void
+}
+MonoBehaviour <|-- ConnectedSlider
+ConnectedSlider --> "inputField" CommandBasedInputFieldComponent
+ConnectedSlider --> "previewBinding" ShaderBinding
+@enduml

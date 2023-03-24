@@ -1,0 +1,9 @@
+@startuml
+class ShaderBinding {
+    + propertyName : string
+    + RestoreLoadedValue() : (bool,T)
+    + UpdateValue(val:T) : void
+    + PreviewValue(val:T) : void
+}
+MonoBehaviour <|-- ShaderBinding
+@enduml

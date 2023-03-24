@@ -1,0 +1,13 @@
+@startuml
+class ScriptShaderInterface {
+    + Initialize(template:Material) : void
+    + HasSetting(name:string) : bool
+    + GetSetting(name:string) : ShaderSetting<T>?
+    + SetSetting(name:string, value:T, updateProjectFile:bool) : bool
+}
+class "List`1"<T> {
+}
+MonoBehaviour <|-- ScriptShaderInterface
+ScriptShaderInterface --> "material" Material
+ScriptShaderInterface o-> "propertyNames<string>" "List`1"
+@enduml

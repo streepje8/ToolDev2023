@@ -1,0 +1,9 @@
+@startuml
+class DefaultShaderSettingSerializerDeserializer {
+    + Serialize(setting:ShaderSetting<T>) : string
+    + DeSerialize(serializedSetting:string) : ShaderSetting<T>
+}
+ScriptableObject <|-- DefaultShaderSettingSerializerDeserializer
+IShaderSettingSerializer <|-- DefaultShaderSettingSerializerDeserializer
+IShaderSettingDeserializer <|-- DefaultShaderSettingSerializerDeserializer
+@enduml

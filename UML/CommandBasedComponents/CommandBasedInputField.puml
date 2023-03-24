@@ -1,7 +1,9 @@
 @startuml
 class "CommandBasedInputField`1"<T> {
     + CommandBasedInputField(inputField:TMP_InputField, parser:IInputParser<T>, validator:IFieldValidator<T>, callback:Action<T>)
+    + LoadValueFromSave() : bool
     + Poke(newValue:string) : void
+    + Poke(newValue:string, pushCommand:bool) : void
     + BindToShader(shaderBinding:ShaderBinding) : void
 }
 @enduml

@@ -1,4 +1,38 @@
 @startuml
+class EffectDropdown {
+    + SetEffect(newVal:int) : void
+}
+class "List`1"<T> {
+}
+MonoBehaviour <|-- EffectDropdown
+EffectDropdown o-> "effectItems<Transform>" "List`1"
+class KeybindingManager {
+    Update() : void
+}
+MonoBehaviour <|-- KeybindingManager
+class ProjectShaderSettingsManager {
+    + SetSetting(id:int, setting:ShaderSetting<T>) : void
+    + GetSetting(id:int) : ShaderSetting<T>?
+    + SerializeAllSettings() : string
+    + DeserializeAllSettings(json:string) : void
+}
+interface IShaderSettingDeserializer {
+    + DeSerialize(serializedSetting:string) : ShaderSetting<T>
+}
+interface IShaderSettingSerializer {
+    + Serialize(setting:ShaderSetting<T>) : string
+}
+class "ShaderSetting`1"<T> <<struct>> {
+    + name : string
+    + value : T
+    + ShaderSetting(name:string, value:T)
+}
+class "Dictionary`2"<T1,T2> {
+}
+MonoBehaviour <|-- ProjectShaderSettingsManager
+ProjectShaderSettingsManager o-> "currentSettings<int,string>" "Dictionary`2"
+ProjectShaderSettingsManager --> "serializer" IShaderSettingSerializer
+ProjectShaderSettingsManager --> "deserializer" IShaderSettingDeserializer
 class RuntimeProject {
     + RuntimeProject(serializedProject:Project)
 }
@@ -31,6 +65,13 @@ class "Stack`1"<T> {
 "Singleton`1" "<CommandManager>" <|-- CommandManager
 CommandManager o-> "history<ICommand>" "Stack`1"
 CommandManager o-> "redoHistory<ICommand>" "Stack`1"
+class ShaderBinding {
+    + propertyName : string
+    + RestoreLoadedValue() : (bool,T)
+    + UpdateValue(val:T) : void
+    + PreviewValue(val:T) : void
+}
+MonoBehaviour <|-- ShaderBinding
 interface ICommand {
     + Execute() : void
     + Undo() : void
@@ -64,6 +105,17 @@ class "Singleton`1"<T> {
 class DropdownToContextMenu {
 }
 MonoBehaviour <|-- DropdownToContextMenu
+class ScriptShaderInterface {
+    + Initialize(template:Material) : void
+    + HasSetting(name:string) : bool
+    + GetSetting(name:string) : ShaderSetting<T>?
+    + SetSetting(name:string, value:T, updateProjectFile:bool) : bool
+}
+class "List`1"<T> {
+}
+MonoBehaviour <|-- ScriptShaderInterface
+ScriptShaderInterface --> "material" Material
+ScriptShaderInterface o-> "propertyNames<string>" "List`1"
 class CommandBasedDropdown {
     + PokeDropdownDetection(newValue:int) : void
 }
@@ -73,9 +125,26 @@ MonoBehaviour <|-- CommandBasedDropdown
 CommandBasedDropdown --> "onValueChanged<int>" "UnityEvent`1"
 class "CommandBasedInputField`1"<T> {
     + CommandBasedInputField(inputField:TMP_InputField, parser:IInputParser<T>, validator:IFieldValidator<T>, callback:Action<T>)
+    + LoadValueFromSave() : bool
     + Poke(newValue:string) : void
+    + Poke(newValue:string, pushCommand:bool) : void
     + BindToShader(shaderBinding:ShaderBinding) : void
 }
+class ConnectedSlider {
+    + maxValue : float = 1f
+    + minValue : float = 0f
+    + Poke(newVal:float) : void
+}
+MonoBehaviour <|-- ConnectedSlider
+ConnectedSlider --> "inputField" CommandBasedInputFieldComponent
+ConnectedSlider --> "previewBinding" ShaderBinding
+class DefaultShaderSettingSerializerDeserializer {
+    + Serialize(setting:ShaderSetting<T>) : string
+    + DeSerialize(serializedSetting:string) : ShaderSetting<T>
+}
+ScriptableObject <|-- DefaultShaderSettingSerializerDeserializer
+IShaderSettingSerializer <|-- DefaultShaderSettingSerializerDeserializer
+IShaderSettingDeserializer <|-- DefaultShaderSettingSerializerDeserializer
 class Preview {
     + isBeeingHovered : bool = false
     + OnPointerEnter(eventData:PointerEventData) : void
@@ -202,6 +271,7 @@ class "CommandBasedInputField`1"<T> {
 "RuntimeCommandBasedInputFieldComponent`1" --> "cbif<T>" "CommandBasedInputField`1"
 class CommandBasedInputFieldComponent {
     + inputType : string
+    + defaultValue : string
 }
 class "Action`1"<T> {
 }
