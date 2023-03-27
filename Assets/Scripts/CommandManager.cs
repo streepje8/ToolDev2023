@@ -20,6 +20,7 @@ public class CommandManager : Singleton<CommandManager>
         changesSinceLastRedo++;
         command?.Execute();
         history.Push(command);
+        ToolManager.Instance.projectIsSaved = false;
     }
 
     public void Undo()
@@ -29,6 +30,7 @@ public class CommandManager : Singleton<CommandManager>
             ICommand command = history.Pop();
             command.Undo();
             redoHistory.Push(command);
+            ToolManager.Instance.projectIsSaved = false;
         }
     }
 
@@ -40,6 +42,7 @@ public class CommandManager : Singleton<CommandManager>
             command.Redo();
             history.Push(command);
             changesSinceLastRedo = 0;
+            ToolManager.Instance.projectIsSaved = false;
         }
     }
 }
