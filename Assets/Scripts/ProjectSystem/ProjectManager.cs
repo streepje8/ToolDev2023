@@ -128,9 +128,12 @@ public class ProjectManager : Singleton<ProjectManager>
 
     public void SaveCurrent()
     {
-        openProject.serializedProject.shaderSettings = shaderSettingsManager.SerializeAllSettings();
-        string projectDataJson = JsonConvert.SerializeObject(openProject.serializedProject, Formatting.Indented);
-        File.WriteAllText(openProject.serializedProject.projectDirectory + "/projectData.json",projectDataJson);
+        if (projectIsOpen)
+        {
+            openProject.serializedProject.shaderSettings = shaderSettingsManager.SerializeAllSettings();
+            string projectDataJson = JsonConvert.SerializeObject(openProject.serializedProject, Formatting.Indented);
+            File.WriteAllText(openProject.serializedProject.projectDirectory + "/projectData.json", projectDataJson);
+        }
     }
     
     public void SaveAs()

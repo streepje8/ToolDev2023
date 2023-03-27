@@ -24,17 +24,42 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: d470e60232d74ee44baa5c7fa5c3b825, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _NoiseScale: 0
+    - _NoiseXAmount: 0
+    - _NoiseXOffset: 0
+    - _NoiseYAmount: 0
+    - _NoiseYOffset: 0
+    - _PNoiseScale: 0
+    - _PNoiseXAmount: 0
+    - _PNoiseXOffset: 0
+    - _PNoiseYAmount: 0
+    - _PNoiseYOffset: 0
+    - _RNoiseScale: 0
+    - _RNoiseXAmount: 0
+    - _RNoiseXOffset: 0
+    - _RNoiseYAmount: 0
+    - _RNoiseYOffset: 0
     - _RotationAmount: 0
     - _RotationCosAmount: 1
     - _RotationCosMod: 1
     - _RotationSinAmount: 1
     - _RotationSinMod: 1
     - _Scale: 1
+    - _ShaderMode: 0
     - _SineOffsetAmountX: 0
     - _SineOffsetAmountY: 0
     - _SineOffsetTime: 1
+    - _VNoiseScale: 0
+    - _VNoiseXAmount: 0
+    - _VNoiseXOffset: 0
+    - _VNoiseYAmount: 0
+    - _VNoiseYOffset: 0
     - _XOffset: 0
     - _YOffset: 0
     m_Colors: []

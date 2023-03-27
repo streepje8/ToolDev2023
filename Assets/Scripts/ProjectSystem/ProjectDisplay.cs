@@ -5,7 +5,6 @@ public class ProjectDisplay : MonoBehaviour
     public GameObject templateProject;
     void Start()
     {
-        Debug.Log("Getting all projects.");
         foreach (string projectPath in ProjectManager.Instance.GetProjectPaths())
         {
             Project p = ProjectManager.Instance.GetProject(projectPath);
