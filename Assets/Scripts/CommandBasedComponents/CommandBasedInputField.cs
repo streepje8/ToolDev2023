@@ -43,7 +43,8 @@ public class CommandBasedInputField<T>
         };
         if(pushCommand)CommandManager.Instance.PushCommand(new ChangeFieldCommand<T>(ifield,oldValue,parser.Parse(newValue),validator,injectedCallback));
         if(pushCommand)oldValue = validator.Invoke(parser.Parse(newValue));
-        if(!pushCommand)new ChangeFieldCommand<T>(ifield,oldValue,parser.Parse(newValue),validator,injectedCallback).Execute();
+        if(!pushCommand)new ChangeFieldCommand<T>(ifield,parser.Parse(newValue),parser.Parse(newValue),validator,injectedCallback).Execute();
+        if(!pushCommand)oldValue = validator.Invoke(parser.Parse(newValue));
     }
 
     public void BindToShader(ShaderBinding shaderBinding)

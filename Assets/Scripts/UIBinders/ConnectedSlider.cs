@@ -23,7 +23,7 @@ public class ConnectedSlider : MonoBehaviour
         slider.onValueChanged.AddListener(Poke);
         slider.maxValue = 1;
         slider.minValue = 0;
-        inputField.callback += (i) => slider.value = Mathf.InverseLerp(minValue,maxValue,float.Parse(i.ToString()));
+        inputField.callback += (i) => slider.SetValueWithoutNotify(Mathf.InverseLerp(minValue,maxValue,float.Parse(i.ToString())));
         value = slider.value;
     }
 

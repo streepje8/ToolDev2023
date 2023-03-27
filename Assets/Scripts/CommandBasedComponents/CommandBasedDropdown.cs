@@ -19,7 +19,7 @@ public class CommandBasedDropdown : MonoBehaviour
 
     public void PokeDropdownDetection(int newValue)
     {
-        CommandManager.Instance.PushCommand(new ChangeDropdownCommand(dropdown,oldValue,newValue, (i) => { onValueChanged.Invoke(i); Debug.Log("Changed to: " + i); }));
+        CommandManager.Instance.PushCommand(new ChangeDropdownCommand(dropdown,oldValue,newValue, (i) => { onValueChanged.Invoke(i); }));
         oldValue = newValue;
     }
     

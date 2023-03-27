@@ -31,7 +31,6 @@ public class ChangeFieldCommand<T> : ICommand
 
     public void Undo()
     {
-        Debug.Log("Undo: " + temp.ToString());
         T newValue = validator.Invoke(from);
         field.SetTextWithoutNotify(newValue.ToString());
         callback.Invoke(newValue);
