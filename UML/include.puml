@@ -39,6 +39,8 @@ class RuntimeProject {
 RuntimeProject --> "sprite" Texture2D
 RuntimeProject --> "serializedProject" Project
 class ToolManager {
+    + Exit() : void
+    + ExitNoSave() : void
 }
 class "Singleton`1"<T> {
 }

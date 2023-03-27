@@ -1,5 +1,7 @@
 @startuml
 class ToolManager {
+    + Exit() : void
+    + ExitNoSave() : void
 }
 class "Singleton`1"<T> {
 }
