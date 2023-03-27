@@ -9,7 +9,13 @@ public class ScriptShaderInterface : MonoBehaviour
     public List<string> propertyNames = new List<string>();
     private Dictionary<string, int> propertyIDLookup = new Dictionary<string, int>();
     private ProjectShaderSettingsManager manager;
-    
+    private static readonly int ShaderModePropertyID = Shader.PropertyToID("_ShaderMode");
+
+    public void SetShaderMode(int mode)
+    {
+        material.SetInt(ShaderModePropertyID, mode);
+    }
+
     public void Initialize(Material template)
     {
         material = new Material(template);

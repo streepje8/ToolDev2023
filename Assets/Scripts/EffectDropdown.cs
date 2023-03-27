@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +10,7 @@ public class EffectDropdown : MonoBehaviour
     private void Awake()
     {
         GetComponent<CommandBasedDropdown>().onValueChanged.AddListener(SetEffect);
+        effectItems.ForEach(x => x.gameObject.SetActive(true));
     }
 
     private void Update()

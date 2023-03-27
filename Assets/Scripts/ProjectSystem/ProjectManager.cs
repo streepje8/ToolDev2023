@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using TMPro;
 using UnityEngine;
 
 public class ProjectManager : Singleton<ProjectManager>
@@ -13,6 +14,11 @@ public class ProjectManager : Singleton<ProjectManager>
     public MenuManager menuManager;
     public Menu newProjectMenu;
     public bool projectIsOpen;
+    public Transform saveAsModal;
+    public TMP_InputField saveAsModalInput;
+
+    public Action projectRefreshEvent;
+    private static readonly int ShaderModePropertyID = Shader.PropertyToID("_ShaderMode");
 
     private void Awake()
     {
@@ -67,7 +73,7 @@ public class ProjectManager : Singleton<ProjectManager>
         return result;
     }
 
-    public void CreateProject(string name, string spriteFilePath)
+    public Project CreateProject(string name, string spriteFilePath, bool openProject = true)
     {
         //Sanitize the user name input
         name = Regex.Replace(name,@"[\s]", "_");
@@ -99,8 +105,9 @@ public class ProjectManager : Singleton<ProjectManager>
         string projectDataJson = JsonConvert.SerializeObject(project, Formatting.Indented);
         File.WriteAllText(project.projectDirectory + "/projectData.json",projectDataJson);
         Debug.Log("Project created successfully at " + project.projectDirectory + "! Opening project...");
-        OpenProject(project);
-        
+        if(openProject)OpenProject(project);
+        return project;
+
         // Old Code
         // string exe = "cmd.exe";
         // Debug.Log("WOO: " + CLI.Instance.NormalizeSlashes(CLI.Instance.AddQuotesIfRequired(Application.streamingAssetsPath + "/FBX2glTF.exe")));
@@ -125,13 +132,24 @@ public class ProjectManager : Singleton<ProjectManager>
         string projectDataJson = JsonConvert.SerializeObject(openProject.serializedProject, Formatting.Indented);
         File.WriteAllText(openProject.serializedProject.projectDirectory + "/projectData.json",projectDataJson);
     }
-
-        public void ExportCurrent()
+    
+    public void SaveAs()
     {
-        if(!Export(openProject)) Debug.LogWarning("The exporting of one or more projects failed!");
+        string newname = saveAsModalInput.text;
+        SaveCurrent();
+        string otherShaderSettings = openProject.serializedProject.shaderSettings;
+        Project p = CreateProject(newname, openProject.serializedProject.originalSpritePath);
+        p.shaderSettings = otherShaderSettings;
+        saveAsModal.gameObject.SetActive(false);
+        projectRefreshEvent.Invoke();
     }
 
-    public bool Export(RuntimeProject p)
+    public void ExportCurrent(int mode)
+    {
+        if(!Export(openProject, mode)) Debug.LogWarning("The exporting of one or more projects failed!");
+    }
+
+    public bool Export(RuntimeProject p, int mode)
     {
         string filepath = "";
         OpenFileName ofn = new OpenFileName();
@@ -157,6 +175,7 @@ public class ProjectManager : Singleton<ProjectManager>
         if (filepath != null)
         {
             RenderTexture temp = new RenderTexture(p.sprite.width, p.sprite.height, 1);
+            ToolManager.Instance.ssi.material.SetInt(ShaderModePropertyID,mode);
             Graphics.Blit(p.sprite, temp, ToolManager.Instance.ssi.material);
             Texture2D result = new Texture2D(p.sprite.width, p.sprite.height);
             RenderTexture.active = temp;

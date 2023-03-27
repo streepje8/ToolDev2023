@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
 
 [Serializable]
 public class CommandBasedInputField<T>
@@ -13,7 +10,7 @@ public class CommandBasedInputField<T>
     private IFieldValidator<T> validator;
     private Action<T> callback;
     private ShaderBinding binding;
-    
+    private bool isInitialized = false;
     public CommandBasedInputField(TMP_InputField inputField, IInputParser<T> parser, IFieldValidator<T> validator, Action<T> callback)
     {
         ifield = inputField;
@@ -27,6 +24,8 @@ public class CommandBasedInputField<T>
 
     public bool LoadValueFromSave()
     {
+        if(!isInitialized)ProjectManager.Instance.projectRefreshEvent += () => LoadValueFromSave();
+        isInitialized = true;
         (bool found, T value) = binding.RestoreLoadedValue<T>();
         if(found) Poke(value.ToString(),false);
         return found;

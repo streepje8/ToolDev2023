@@ -14,6 +14,7 @@ Shader "Unlit/ProcessorShader"
         _XOffset("X Offset", Float) = 0
         _YOffset("Y Offset", Float) = 0
         _Scale("Scale", Float) = 1
+        _ShaderMode("Shader Mode", Int) = 0
     }
     SubShader
     {
@@ -62,6 +63,7 @@ Shader "Unlit/ProcessorShader"
             float _XOffset;
             float _YOffset;
             float _Scale;
+            int _ShaderMode;
             
             fixed4 frag (v2f i) : SV_Target
             {
@@ -80,9 +82,9 @@ Shader "Unlit/ProcessorShader"
                 uv = float2(acos * uv.x - asin * uv.y,asin * uv.x + acos * uv.y);
 
                 float2 diff = (normalize(i.uv - uv) + 0.5) * 0.5;
-                //return float4(diff.x,diff.y,1,1);
-                fixed4 col = tex2D(_MainTex, uv);
-                return col;
+                if(_ShaderMode == 0) return tex2D(_MainTex, uv);
+                if(_ShaderMode == 1) return float4(diff.x,diff.y,1,1);
+                return float4(0,0,0,1);
             }
             ENDCG
         }
