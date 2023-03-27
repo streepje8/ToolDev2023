@@ -106,6 +106,7 @@ class DropdownToContextMenu {
 }
 MonoBehaviour <|-- DropdownToContextMenu
 class ScriptShaderInterface {
+    + SetShaderMode(mode:int) : void
     + Initialize(template:Material) : void
     + HasSetting(name:string) : bool
     + GetSetting(name:string) : ShaderSetting<T>?
@@ -164,10 +165,11 @@ class ProjectManager {
     + GetProjectPaths() : List<string>
     + GetProjectNames() : List<string>
     + GetProject(projectDirectory:string) : Project
-    + CreateProject(name:string, spriteFilePath:string) : void
+    + CreateProject(name:string, spriteFilePath:string, openProject:bool) : Project
     + SaveCurrent() : void
-    + ExportCurrent() : void
-    + Export(p:RuntimeProject) : bool
+    + SaveAs() : void
+    + ExportCurrent(mode:int) : void
+    + Export(p:RuntimeProject, mode:int) : bool
     + OpenProject(p:Project) : void
     + GetOpenProject() : RuntimeProject
 }
@@ -177,6 +179,9 @@ class "Singleton`1"<T> {
 ProjectManager --> "shaderSettingsManager" ProjectShaderSettingsManager
 ProjectManager --> "menuManager" MenuManager
 ProjectManager --> "newProjectMenu" Menu
+ProjectManager --> "saveAsModal" Transform
+ProjectManager --> "saveAsModalInput" TMP_InputField
+ProjectManager --> "projectRefreshEvent" Action
 class Project <<struct>> {
     + name : string
     + projectDirectory : string

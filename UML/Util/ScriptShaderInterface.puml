@@ -1,5 +1,6 @@
 @startuml
 class ScriptShaderInterface {
+    + SetShaderMode(mode:int) : void
     + Initialize(template:Material) : void
     + HasSetting(name:string) : bool
     + GetSetting(name:string) : ShaderSetting<T>?
