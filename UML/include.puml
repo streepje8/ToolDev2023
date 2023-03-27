@@ -39,6 +39,9 @@ class RuntimeProject {
 RuntimeProject --> "sprite" Texture2D
 RuntimeProject --> "serializedProject" Project
 class ToolManager {
+    + projectIsSaved : bool = true
+    + CloseProject() : void
+    + New() : void
     + Exit() : void
     + ExitNoSave() : void
 }
@@ -48,6 +51,7 @@ class "Singleton`1"<T> {
 ToolManager --> "ssi" ScriptShaderInterface
 ToolManager --> "processor" SpriteProcessor
 ToolManager --> "mainMenu" Menu
+ToolManager --> "exitModal" Transform
 class SpriteProcessor {
     + ProcessImage(sprite:Texture2D) : void
 }

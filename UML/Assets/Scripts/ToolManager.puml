@@ -1,5 +1,8 @@
 @startuml
 class ToolManager {
+    + projectIsSaved : bool = true
+    + CloseProject() : void
+    + New() : void
     + Exit() : void
     + ExitNoSave() : void
 }
@@ -9,4 +12,5 @@ class "Singleton`1"<T> {
 ToolManager --> "ssi" ScriptShaderInterface
 ToolManager --> "processor" SpriteProcessor
 ToolManager --> "mainMenu" Menu
+ToolManager --> "exitModal" Transform
 @enduml
